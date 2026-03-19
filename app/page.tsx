@@ -1,32 +1,40 @@
 import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
+import About from '@/components/About'
 import Skills from '@/components/Skills'
 import Projects from '@/components/Projects'
 import ContributionGraph from '@/components/ContributionGraph'
+import Footer from '@/components/Footer'
 
 export default function Home() {
-  const year = new Date().getFullYear()
-
   return (
     <>
       <Navbar />
       <main
-        style={{ paddingTop: '56px' }}
-        className="max-w-[900px] mx-auto px-6"
+        style={{
+          paddingTop: '56px',
+          maxWidth: '900px',
+          margin: '0 auto',
+          paddingLeft: '1.5rem',
+          paddingRight: '1.5rem',
+        }}
       >
         <Hero />
+        <About />
         <Skills />
-        <ContributionGraph />
         <Projects />
-        <footer className="py-12 text-center">
-          <p
-            className="text-[#444] text-[0.8rem]"
-            style={{ fontFamily: 'var(--font-dm-mono)' }}
-          >
-            Jordan Vorster · {year} · Eastern Cape, ZA
-          </p>
-        </footer>
+        <ContributionGraph />
       </main>
+      <div
+        style={{
+          maxWidth: '900px',
+          margin: '0 auto',
+          paddingLeft: '1.5rem',
+          paddingRight: '1.5rem',
+        }}
+      >
+        <Footer />
+      </div>
     </>
   )
 }

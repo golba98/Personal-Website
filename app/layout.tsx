@@ -18,7 +18,7 @@ const dmMono = DM_Mono({
 
 export const metadata: Metadata = {
   title: 'Jordan Vorster',
-  description: 'CS Student & Developer',
+  description: 'CS Student & Developer — open to internships and junior roles',
 }
 
 export default function RootLayout({
@@ -28,7 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${dmSans.variable} ${dmMono.variable}`}>
-      <body className="bg-[#0a0a0a] text-[#f5f5f5] font-sans antialiased">
+      <body className="bg-[#0a0a0a] text-[#f5f5f5] font-sans antialiased min-h-screen">
         <SessionProvider>{children}</SessionProvider>
       </body>
     </html>

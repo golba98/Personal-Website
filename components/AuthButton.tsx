@@ -9,7 +9,7 @@ export default function AuthButton() {
   if (status === 'loading') {
     return (
       <div
-        className="h-8 w-24 border border-[#1a1a1a] animate-pulse"
+        className="h-7 w-28 border border-[#1a1a1a] animate-pulse"
         style={{ fontFamily: 'var(--font-dm-mono)' }}
       />
     )
@@ -26,6 +26,14 @@ export default function AuthButton() {
             height={24}
             className="rounded-full border border-[#333]"
           />
+        )}
+        {session.user?.name && (
+          <span
+            className="text-[0.75rem] text-[#555] hidden sm:inline"
+            style={{ fontFamily: 'var(--font-dm-mono)' }}
+          >
+            {session.user.name}
+          </span>
         )}
         <button
           onClick={() => signOut()}

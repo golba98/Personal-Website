@@ -9,7 +9,7 @@ function getColor(count: number): string {
   if (count <= 3) return '#333'
   if (count <= 6) return '#555'
   if (count <= 9) return '#888'
-  return '#fff'
+  return '#f5f5f5'
 }
 
 const MONTH_LABELS = [
@@ -20,7 +20,6 @@ const MONTH_LABELS = [
 function getMonthPositions(weeks: ContributionWeek[]) {
   const positions: { label: string; col: number }[] = []
   let lastMonth = -1
-
   weeks.forEach((week, colIndex) => {
     const firstDay = week.contributionDays[0]
     if (!firstDay) return
@@ -30,7 +29,6 @@ function getMonthPositions(weeks: ContributionWeek[]) {
       lastMonth = month
     }
   })
-
   return positions
 }
 
@@ -43,10 +41,8 @@ export default function ContributionGraph() {
 
   useEffect(() => {
     if (!session) return
-
     setLoading(true)
     setError(null)
-
     fetch('/api/contributions')
       .then((res) => {
         if (!res.ok) throw new Error('Failed to load')
@@ -68,20 +64,20 @@ export default function ContributionGraph() {
   const monthPositions = getMonthPositions(weeks)
 
   return (
-    <section className="py-12 border-t border-[#1a1a1a]">
+    <section className="pb-20">
       <div className="flex items-center gap-4 mb-6">
         <h2
           className="text-[0.75rem] text-[#888] uppercase tracking-[0.1em]"
           style={{ fontFamily: 'var(--font-dm-mono)' }}
         >
-          Contributions
+          — Contributions
         </h2>
         {!loading && total > 0 && (
           <span
             className="text-[0.75rem] text-[#444]"
             style={{ fontFamily: 'var(--font-dm-mono)' }}
           >
-            {total.toLocaleString()} this year
+            {total.toLocaleString()} contributions in the last year
           </span>
         )}
       </div>
@@ -96,7 +92,7 @@ export default function ContributionGraph() {
       )}
 
       {loading && (
-        <div className="h-24 flex items-center">
+        <div className="h-20 flex items-center">
           <span
             className="text-[0.75rem] text-[#444]"
             style={{ fontFamily: 'var(--font-dm-mono)' }}
@@ -114,17 +110,15 @@ export default function ContributionGraph() {
               {weeks.map((_, colIndex) => {
                 const monthPos = monthPositions.find((m) => m.col === colIndex)
                 return (
-                  <div
-                    key={colIndex}
-                    style={{ width: '10px' }}
-                    className="flex items-center justify-start"
-                  >
+                  <div key={colIndex} style={{ width: '10px', position: 'relative' }}>
                     {monthPos && (
                       <span
-                        className="text-[0.6rem] text-[#444] whitespace-nowrap"
+                        className="absolute text-[#444] whitespace-nowrap"
                         style={{
                           fontFamily: 'var(--font-dm-mono)',
-                          fontSize: '0.6rem',
+                          fontSize: '0.65rem',
+                          top: 0,
+                          left: 0,
                         }}
                       >
                         {monthPos.label}
@@ -135,14 +129,13 @@ export default function ContributionGraph() {
               })}
             </div>
 
+            {/* Spacer for month label row */}
+            <div style={{ height: '14px' }} />
+
             {/* Grid */}
             <div className="flex" style={{ gap: '2px' }}>
               {weeks.map((week, colIndex) => (
-                <div
-                  key={colIndex}
-                  className="flex flex-col"
-                  style={{ gap: '2px' }}
-                >
+                <div key={colIndex} className="flex flex-col" style={{ gap: '2px' }}>
                   {week.contributionDays.map((day) => (
                     <div
                       key={day.date}

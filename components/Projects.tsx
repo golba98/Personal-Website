@@ -5,32 +5,22 @@ import { useSession } from 'next-auth/react'
 import type { Repo } from '@/types'
 
 const languageColors: Record<string, string> = {
+  JavaScript: '#f7df1e',
   TypeScript: '#3178c6',
-  JavaScript: '#f1e05a',
-  Python: '#3572A5',
-  PHP: '#4F5D95',
-  Java: '#b07219',
-  'C#': '#178600',
-  'C++': '#f34b7d',
+  Python: '#3572a5',
   HTML: '#e34c26',
   CSS: '#563d7c',
-  Go: '#00ADD8',
-  Rust: '#dea584',
-  Ruby: '#701516',
   Shell: '#89e051',
-  Swift: '#ffac45',
-  Kotlin: '#A97BFF',
-  Dart: '#00B4AB',
+}
+
+function getLanguageColor(lang: string | null): string {
+  if (!lang) return '#888'
+  return languageColors[lang] ?? '#888'
 }
 
 function SkeletonCard() {
   return (
-    <div className="border border-[#1a1a1a] bg-[#0f0f0f] p-6 animate-pulse">
-      <div className="h-4 bg-[#1a1a1a] rounded w-2/3 mb-3" />
-      <div className="h-3 bg-[#1a1a1a] rounded w-full mb-2" />
-      <div className="h-3 bg-[#1a1a1a] rounded w-4/5 mb-6" />
-      <div className="h-3 bg-[#1a1a1a] rounded w-1/3" />
-    </div>
+    <div className="border border-[#1a1a1a] bg-[#1a1a1a] p-6 animate-pulse h-36" />
   )
 }
 
@@ -60,33 +50,27 @@ export default function Projects() {
   }, [session])
 
   const filtered = showForks ? repos : repos.filter((r) => !r.fork)
-
   const isAuthenticated = !!session
 
   return (
-    <section className="py-12 border-t border-[#1a1a1a]">
+    <section className="pb-20">
       <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-3">
-          <h2
-            className="text-[0.75rem] text-[#888] uppercase tracking-[0.1em]"
-            style={{ fontFamily: 'var(--font-dm-mono)' }}
-          >
-            Projects
-          </h2>
-          <span
-            className="text-[0.7rem] text-[#444]"
-            style={{ fontFamily: 'var(--font-dm-mono)' }}
-          >
+        <h2
+          className="text-[0.75rem] text-[#888] uppercase tracking-[0.1em]"
+          style={{ fontFamily: 'var(--font-dm-mono)' }}
+        >
+          — Projects{' '}
+          <span className="normal-case">
             {isAuthenticated ? '(public + private)' : '(public)'}
           </span>
-        </div>
+        </h2>
         {isAuthenticated && (
           <button
             onClick={() => setShowForks((v) => !v)}
             className="text-[0.7rem] text-[#555] border border-[#1a1a1a] px-2.5 py-1 transition-colors duration-150 ease-in hover:border-[#333] hover:text-[#888]"
             style={{ fontFamily: 'var(--font-dm-mono)' }}
           >
-            {showForks ? 'Hide forks' : 'Show forks'}
+            {showForks ? 'hide forks' : 'include forks'}
           </button>
         )}
       </div>
@@ -100,13 +84,16 @@ export default function Projects() {
         </p>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {loading
-          ? Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)
+          ? Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
           : filtered.map((repo) => (
-              <div
+              <a
                 key={repo.id}
-                className="border border-[#1a1a1a] bg-[#0f0f0f] p-6 flex flex-col gap-3 transition-colors duration-150 ease-in hover:border-[#333]"
+                href={repo.html_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative border border-[#1a1a1a] bg-[#0f0f0f] p-6 flex flex-col gap-2 transition-colors duration-150 ease-in hover:border-[#333] block"
               >
                 <div className="flex items-start justify-between gap-2">
                   <h3
@@ -115,19 +102,17 @@ export default function Projects() {
                   >
                     {repo.name}
                   </h3>
-                  {repo.private && (
-                    <span
-                      className="text-[0.65rem] text-[#444] border border-[#1a1a1a] px-1.5 py-0.5 shrink-0"
-                      style={{ fontFamily: 'var(--font-dm-mono)' }}
-                    >
-                      private
-                    </span>
-                  )}
+                  <span
+                    className="text-[0.7rem] text-[#555] opacity-0 group-hover:opacity-100 transition-opacity duration-150 ease-in shrink-0 mt-0.5"
+                    style={{ fontFamily: 'var(--font-dm-mono)' }}
+                  >
+                    ↗ View repo
+                  </span>
                 </div>
 
                 {repo.description && (
                   <p
-                    className="text-[0.8rem] text-[#888] leading-relaxed"
+                    className="text-[0.85rem] text-[#888] leading-relaxed line-clamp-2"
                     style={{ fontFamily: 'var(--font-dm-sans)' }}
                   >
                     {repo.description}
@@ -139,11 +124,8 @@ export default function Projects() {
                     {repo.language && (
                       <span className="flex items-center gap-1.5">
                         <span
-                          className="w-2.5 h-2.5 rounded-full"
-                          style={{
-                            backgroundColor:
-                              languageColors[repo.language] ?? '#555',
-                          }}
+                          className="w-2.5 h-2.5 rounded-full shrink-0"
+                          style={{ backgroundColor: getLanguageColor(repo.language) }}
                         />
                         <span
                           className="text-[0.75rem] text-[#888]"
@@ -153,26 +135,17 @@ export default function Projects() {
                         </span>
                       </span>
                     )}
-                    {repo.stargazers_count > 0 && (
-                      <span
-                        className="text-[0.75rem] text-[#555]"
-                        style={{ fontFamily: 'var(--font-dm-mono)' }}
-                      >
-                        ★ {repo.stargazers_count}
-                      </span>
-                    )}
                   </div>
-                  <a
-                    href={repo.html_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[0.7rem] text-[#555] border border-[#1a1a1a] px-2.5 py-1 transition-colors duration-150 ease-in hover:border-[#333] hover:text-[#888]"
-                    style={{ fontFamily: 'var(--font-dm-mono)' }}
-                  >
-                    View on GitHub
-                  </a>
+                  {repo.stargazers_count > 0 && (
+                    <span
+                      className="text-[0.75rem] text-[#555]"
+                      style={{ fontFamily: 'var(--font-dm-mono)' }}
+                    >
+                      ★ {repo.stargazers_count}
+                    </span>
+                  )}
                 </div>
-              </div>
+              </a>
             ))}
       </div>
     </section>

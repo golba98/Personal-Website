@@ -11,9 +11,6 @@ export async function GET() {
   }
 
   try {
-    const username = session.user?.name ?? session.user?.email ?? ''
-
-    // Fetch the authenticated user's login from GitHub
     const userRes = await fetch('https://api.github.com/user', {
       headers: {
         Authorization: `Bearer ${session.accessToken}`,
@@ -29,7 +26,6 @@ export async function GET() {
     const login = userData.login as string
 
     const data = await fetchContributions(session.accessToken, login)
-
     const calendar =
       data?.data?.user?.contributionsCollection?.contributionCalendar
 
