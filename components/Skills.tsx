@@ -1,3 +1,8 @@
+'use client'
+
+import type { CSSProperties } from 'react'
+import { useInView } from '@/hooks/useInView'
+
 const skillGroups = [
   {
     label: 'Languages',
@@ -18,11 +23,23 @@ const skillGroups = [
 ]
 
 export default function Skills() {
+  const { ref, inView } = useInView<HTMLElement>({ threshold: 0.1 })
+
+  function fadeIn(delayMs: number): CSSProperties {
+    return {
+      opacity: inView ? 1 : 0,
+      transform: inView ? 'translateY(0)' : 'translateY(20px)',
+      transition: `opacity 0.4s ease ${delayMs}ms, transform 0.4s ease ${delayMs}ms`,
+    }
+  }
+
+  let pillIndex = 0
+
   return (
-    <section className="pb-20">
+    <section ref={ref} className="pb-20">
       <h2
         className="text-[0.75rem] text-[#888] uppercase tracking-[0.1em] mb-8"
-        style={{ fontFamily: 'var(--font-dm-mono)' }}
+        style={{ fontFamily: 'var(--font-dm-mono)', ...fadeIn(0) }}
       >
         — Skills
       </h2>
@@ -36,15 +53,18 @@ export default function Skills() {
               {group.label}
             </span>
             <div className="flex flex-wrap gap-2">
-              {group.skills.map((skill) => (
-                <span
-                  key={skill}
-                  className="text-[0.75rem] text-[#f5f5f5] border border-[#222] px-3 py-1 transition-colors duration-150 ease-in hover:border-[#555] cursor-default"
-                  style={{ fontFamily: 'var(--font-dm-mono)' }}
-                >
-                  {skill}
-                </span>
-              ))}
+              {group.skills.map((skill) => {
+                const delay = 40 + pillIndex++ * 20
+                return (
+                  <span
+                    key={skill}
+                    className="skill-pill text-[0.75rem] text-[#f5f5f5] border border-[#222] px-3 py-1 cursor-default"
+                    style={{ fontFamily: 'var(--font-dm-mono)', ...fadeIn(delay) }}
+                  >
+                    {skill}
+                  </span>
+                )
+              })}
             </div>
           </div>
         ))}

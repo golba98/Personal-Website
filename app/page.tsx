@@ -1,6 +1,7 @@
 import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
 import About from '@/components/About'
+import Experience from '@/components/Experience'
 import Skills from '@/components/Skills'
 import Projects from '@/components/Projects'
 import ContributionGraph from '@/components/ContributionGraph'
@@ -21,6 +22,7 @@ export default function Home() {
       >
         <Hero />
         <About />
+        <Experience />
         <Skills />
         <Projects />
         <ContributionGraph />

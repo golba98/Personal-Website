@@ -1,34 +1,77 @@
+import type { CSSProperties } from 'react'
+
+function fadeUp(delayMs: number): CSSProperties {
+  return {
+    opacity: 0,
+    animation: `fadeUp 0.55s ease ${delayMs}ms forwards`,
+  }
+}
+
 export default function Hero() {
   const githubUsername = process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? 'golba98'
 
   return (
     <section className="py-24">
+      {/* Name */}
       <h1
         className="text-[3.5rem] font-light text-[#f5f5f5] leading-none mb-5"
-        style={{ fontFamily: 'var(--font-dm-sans)' }}
+        style={{ fontFamily: 'var(--font-dm-sans)', ...fadeUp(0) }}
       >
         Jordan Vorster
       </h1>
+
+      {/* Role */}
       <p
         className="text-[1rem] text-[#f5f5f5] mb-2"
-        style={{ fontFamily: 'var(--font-dm-mono)' }}
+        style={{ fontFamily: 'var(--font-dm-mono)', ...fadeUp(100) }}
       >
         CS Student &amp; Developer
       </p>
+
+      {/* Location */}
       <p
         className="text-[0.85rem] text-[#888] mb-2"
-        style={{ fontFamily: 'var(--font-dm-mono)' }}
+        style={{ fontFamily: 'var(--font-dm-mono)', ...fadeUp(200) }}
       >
         University of London BSc · Eastern Cape, South Africa
       </p>
+
+      {/* Availability text */}
       <p
-        className="text-[0.85rem] text-[#555] mb-10"
-        style={{ fontFamily: 'var(--font-dm-mono)' }}
+        className="text-[0.85rem] text-[#555] mb-6"
+        style={{ fontFamily: 'var(--font-dm-mono)', ...fadeUp(300) }}
       >
         Open to internships &amp; junior roles · Available remotely
       </p>
 
-      <div className="flex flex-wrap gap-3">
+      {/* Availability badge */}
+      <div
+        className="flex items-center gap-2 mb-10"
+        style={fadeUp(350)}
+      >
+        <span
+          style={{
+            width: '6px',
+            height: '6px',
+            borderRadius: '50%',
+            backgroundColor: '#22c55e',
+            flexShrink: 0,
+            animation: 'pulse-dot 1.8s ease-in-out infinite',
+          }}
+        />
+        <span
+          className="text-[0.75rem] text-[#555]"
+          style={{ fontFamily: 'var(--font-dm-mono)' }}
+        >
+          Available for opportunities
+        </span>
+      </div>
+
+      {/* Action buttons */}
+      <div
+        className="flex flex-wrap gap-3"
+        style={fadeUp(420)}
+      >
         <a
           href="/api/cv"
           download="Jordan_Vorster_CV.pdf"

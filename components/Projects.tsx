@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
+import { useInView } from '@/hooks/useInView'
 import type { Repo } from '@/types'
 
 const languageColors: Record<string, string> = {
@@ -26,6 +27,7 @@ function SkeletonCard() {
 
 export default function Projects() {
   const { data: session } = useSession()
+  const { ref, inView } = useInView<HTMLElement>({ threshold: 0.05 })
   const [repos, setRepos] = useState<Repo[]>([])
   const [loading, setLoading] = useState(true)
   const [showForks, setShowForks] = useState(false)
@@ -53,7 +55,7 @@ export default function Projects() {
   const isAuthenticated = !!session
 
   return (
-    <section className="pb-20">
+    <section ref={ref} className="pb-20">
       <div className="flex items-center justify-between mb-8">
         <h2
           className="text-[0.75rem] text-[#888] uppercase tracking-[0.1em]"
@@ -87,21 +89,33 @@ export default function Projects() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {loading
           ? Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
-          : filtered.map((repo) => (
+          : filtered.map((repo, index) => (
               <a
                 key={repo.id}
                 href={repo.html_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative border border-[#1a1a1a] bg-[#0f0f0f] p-6 flex flex-col gap-2 transition-colors duration-150 ease-in hover:border-[#333] block"
+                data-inview={String(inView)}
+                className="group project-card relative border border-[#1a1a1a] bg-[#0f0f0f] p-6 flex flex-col gap-2 hover:border-[#333] block"
+                style={{ transitionDelay: `${index * 40}ms` }}
               >
                 <div className="flex items-start justify-between gap-2">
-                  <h3
-                    className="text-[0.9rem] text-[#f5f5f5] leading-tight"
-                    style={{ fontFamily: 'var(--font-dm-mono)' }}
-                  >
-                    {repo.name}
-                  </h3>
+                  <div className="flex items-center gap-2 flex-wrap min-w-0">
+                    <h3
+                      className="text-[0.9rem] text-[#f5f5f5] leading-tight"
+                      style={{ fontFamily: 'var(--font-dm-mono)' }}
+                    >
+                      {repo.name}
+                    </h3>
+                    {repo.private && (
+                      <span
+                        className="text-[0.6rem] text-[#444] border border-[#1a1a1a] px-1.5 py-0.5 shrink-0"
+                        style={{ fontFamily: 'var(--font-dm-mono)' }}
+                      >
+                        private
+                      </span>
+                    )}
+                  </div>
                   <span
                     className="text-[0.7rem] text-[#555] opacity-0 group-hover:opacity-100 transition-opacity duration-150 ease-in shrink-0 mt-0.5"
                     style={{ fontFamily: 'var(--font-dm-mono)' }}
