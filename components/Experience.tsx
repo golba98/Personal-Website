@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import TextReveal from './TextReveal'
 
 const entries = [
   {
@@ -58,16 +59,14 @@ const itemVariants: import('framer-motion').Variants = {
 export default function Experience() {
   return (
     <section className="pb-20">
-      <motion.h2
-        initial={{ opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.1 }}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="text-[0.75rem] text-[#888] uppercase tracking-[0.1em] mb-8"
-        style={{ fontFamily: 'var(--font-dm-mono)' }}
-      >
-        — Experience
-      </motion.h2>
+      <TextReveal className="mb-8">
+        <h2
+          className="text-[0.75rem] text-[#888] uppercase tracking-[0.1em]"
+          style={{ fontFamily: 'var(--font-dm-mono)' }}
+        >
+          — Experience
+        </h2>
+      </TextReveal>
 
       <motion.div
         variants={containerVariants}
