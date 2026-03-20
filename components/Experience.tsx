@@ -1,6 +1,6 @@
 'use client'
 
-import { useInView } from '@/hooks/useInView'
+import { motion } from 'framer-motion'
 
 const entries = [
   {
@@ -36,34 +36,47 @@ const entries = [
   },
 ]
 
-export default function Experience() {
-  const { ref, inView } = useInView()
+const containerVariants: import('framer-motion').Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+    },
+  },
+}
 
+const itemVariants: import('framer-motion').Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { type: 'spring', stiffness: 100, damping: 20 },
+  },
+}
+
+export default function Experience() {
   return (
-    <section ref={ref} className="pb-20">
-      <h2
+    <section className="pb-20">
+      <motion.h2
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
         className="text-[0.75rem] text-[#888] uppercase tracking-[0.1em] mb-8"
-        style={{
-          fontFamily: 'var(--font-dm-mono)',
-          opacity: inView ? 1 : 0,
-          transform: inView ? 'none' : 'translateY(12px)',
-          transition: 'opacity 500ms ease 0ms, transform 500ms ease 0ms',
-        }}
+        style={{ fontFamily: 'var(--font-dm-mono)' }}
       >
         — Experience
-      </h2>
+      </motion.h2>
 
-      <div>
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
+      >
         {entries.map((entry, i) => (
-          <div
-            key={i}
-            className="flex gap-5"
-            style={{
-              opacity: inView ? 1 : 0,
-              transform: inView ? 'translateY(0)' : 'translateY(16px)',
-              transition: `opacity 500ms ease ${(i + 1) * 80}ms, transform 500ms ease ${(i + 1) * 80}ms`,
-            }}
-          >
+          <motion.div key={i} variants={itemVariants} className="flex gap-5">
             {/* Timeline spine */}
             <div
               className="flex flex-col items-center"
@@ -122,9 +135,9 @@ export default function Experience() {
                 </p>
               )}
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   )
 }

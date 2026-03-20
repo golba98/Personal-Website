@@ -1,6 +1,6 @@
 'use client'
 
-import { useInView } from '@/hooks/useInView'
+import { motion } from 'framer-motion'
 
 const skillGroups = [
   {
@@ -21,32 +21,51 @@ const skillGroups = [
   },
 ]
 
-export default function Skills() {
-  const { ref, inView } = useInView()
+const containerVariants: import('framer-motion').Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+}
 
+const itemVariants: import('framer-motion').Variants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { type: 'spring', stiffness: 100, damping: 20 },
+  },
+}
+
+export default function Skills() {
   return (
-    <section ref={ref} className="pb-20">
-      <h2
+    <section className="pb-20">
+      <motion.h2
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
         className="text-[0.75rem] text-[#888] uppercase tracking-[0.1em] mb-8"
-        style={{
-          fontFamily: 'var(--font-dm-mono)',
-          opacity: inView ? 1 : 0,
-          transform: inView ? 'none' : 'translateY(12px)',
-          transition: 'opacity 500ms ease 0ms, transform 500ms ease 0ms',
-        }}
+        style={{ fontFamily: 'var(--font-dm-mono)' }}
       >
         — Skills
-      </h2>
-      <div className="space-y-5">
-        {skillGroups.map((group, groupIndex) => (
-          <div
+      </motion.h2>
+      
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
+        className="space-y-5"
+      >
+        {skillGroups.map((group) => (
+          <motion.div
             key={group.label}
+            variants={itemVariants}
             className="flex flex-wrap items-start gap-x-4 gap-y-3"
-            style={{
-              opacity: inView ? 1 : 0,
-              transform: inView ? 'translateY(0)' : 'translateY(12px)',
-              transition: `opacity 400ms ease ${(groupIndex + 1) * 70}ms, transform 400ms ease ${(groupIndex + 1) * 70}ms`,
-            }}
           >
             <span
               className="text-[0.75rem] text-[#888] pt-0.5 shrink-0"
@@ -65,9 +84,9 @@ export default function Skills() {
                 </span>
               ))}
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   )
 }

@@ -1,6 +1,27 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { motion } from 'framer-motion'
+
+const containerVariants: import('framer-motion').Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+}
+
+const itemVariants: import('framer-motion').Variants = {
+  hidden: { opacity: 0, y: 15 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { type: 'spring', stiffness: 100, damping: 20 } 
+  },
+}
 
 export default function Hero() {
   const githubUsername = process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? 'golba98'
@@ -22,38 +43,47 @@ export default function Hero() {
   }, [])
 
   return (
-    <section className="py-24">
-      <h1
+    <motion.section 
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="py-24"
+    >
+      <motion.h1
+        variants={itemVariants}
         ref={h1Ref}
         className="glitch text-[3.5rem] font-light text-[#f5f5f5] leading-none mb-5"
         style={{ fontFamily: 'var(--font-dm-sans)' }}
         data-text="Jordan Vorster"
       >
         Jordan Vorster
-      </h1>
+      </motion.h1>
 
-      <p
+      <motion.p
+        variants={itemVariants}
         className="text-[1rem] text-[#f5f5f5] mb-2"
         style={{ fontFamily: 'var(--font-dm-mono)' }}
       >
         CS Student &amp; Developer
-      </p>
+      </motion.p>
 
-      <p
+      <motion.p
+        variants={itemVariants}
         className="text-[0.85rem] text-[#888] mb-2"
         style={{ fontFamily: 'var(--font-dm-mono)' }}
       >
         University of London BSc · Eastern Cape, South Africa
-      </p>
+      </motion.p>
 
-      <p
+      <motion.p
+        variants={itemVariants}
         className="text-[0.85rem] text-[#555] mb-6"
         style={{ fontFamily: 'var(--font-dm-mono)' }}
       >
         Open to internships &amp; junior roles · Available remotely
-      </p>
+      </motion.p>
 
-      <div className="flex items-center gap-2 mb-10">
+      <motion.div variants={itemVariants} className="flex items-center gap-2 mb-10">
         <span
           style={{
             width: '6px',
@@ -70,9 +100,9 @@ export default function Hero() {
         >
           Available for opportunities
         </span>
-      </div>
+      </motion.div>
 
-      <div className="flex flex-wrap gap-3">
+      <motion.div variants={itemVariants} className="flex flex-wrap gap-3">
         <a
           href="/api/cv"
           download="Jordan_Vorster_CV.pdf"
@@ -106,7 +136,7 @@ export default function Hero() {
         >
           Email
         </a>
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   )
 }

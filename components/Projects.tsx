@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
+import { motion, AnimatePresence } from 'framer-motion'
 import type { Repo } from '@/types'
 
 // ─── Language colours ────────────────────────────────────────────
@@ -130,93 +131,115 @@ export default function Projects() {
       )}
 
       {/* ── Grid ── */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {loading
-          ? Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)
-          : filtered.length === 0
-            ? (
-              <p
-                className="col-span-2 text-[0.8rem] text-[#444] py-4"
-                style={{ fontFamily: 'var(--font-dm-mono)' }}
-              >
-                No repositories found.
-              </p>
-            )
-            : filtered.map((repo, index) => (
-                <a
-                  key={repo.id}
-                  href={repo.html_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group border border-[#1a1a1a] bg-[#0f0f0f] p-5 flex flex-col gap-2 hover:border-[#2a2a2a] transition-colors duration-150"
+      <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <AnimatePresence mode="popLayout">
+          {loading
+            ? Array.from({ length: 6 }).map((_, i) => (
+                <motion.div
+                  key={`skeleton-${i}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  {/* Title row */}
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-2 min-w-0">
-                      <h3
-                        className="text-[0.85rem] text-[#f5f5f5] truncate group-hover:text-white transition-colors duration-150"
-                        style={{ fontFamily: 'var(--font-dm-mono)' }}
-                      >
-                        {repo.name}
-                      </h3>
-                      {repo.private && (
-                        <span
-                          className="text-[0.55rem] text-[#333] border border-[#1a1a1a] px-1.5 py-0.5 shrink-0"
+                  <SkeletonCard />
+                </motion.div>
+              ))
+            : filtered.length === 0
+              ? (
+                <motion.p
+                  key="empty"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  layout
+                  className="col-span-2 text-[0.8rem] text-[#444] py-4"
+                  style={{ fontFamily: 'var(--font-dm-mono)' }}
+                >
+                  No repositories found.
+                </motion.p>
+              )
+              : filtered.map((repo, index) => (
+                  <motion.a
+                    layout
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.25, ease: 'easeOut' }}
+                    key={repo.id}
+                    href={repo.html_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group border border-[#1a1a1a] bg-[#0f0f0f] p-5 flex flex-col gap-2 hover:border-[#2a2a2a] transition-colors duration-150"
+                  >
+                    {/* Title row */}
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <h3
+                          className="text-[0.85rem] text-[#f5f5f5] truncate group-hover:text-white transition-colors duration-150"
                           style={{ fontFamily: 'var(--font-dm-mono)' }}
                         >
-                          private
+                          {repo.name}
+                        </h3>
+                        {repo.private && (
+                          <span
+                            className="text-[0.55rem] text-[#333] border border-[#1a1a1a] px-1.5 py-0.5 shrink-0"
+                            style={{ fontFamily: 'var(--font-dm-mono)' }}
+                          >
+                            private
+                          </span>
+                        )}
+                      </div>
+                      <span
+                        className="text-[0.65rem] text-[#333] opacity-0 group-hover:opacity-100 transition-opacity duration-150 shrink-0"
+                        style={{ fontFamily: 'var(--font-dm-mono)' }}
+                      >
+                        ↗
+                      </span>
+                    </div>
+
+                    {/* Description */}
+                    {repo.description && (
+                      <p
+                        className="text-[0.8rem] text-[#555] leading-relaxed line-clamp-2"
+                        style={{ fontFamily: 'var(--font-dm-sans)' }}
+                      >
+                        {repo.description}
+                      </p>
+                    )}
+
+                    {/* Footer */}
+                    <div className="flex items-center justify-between mt-auto pt-2">
+                      {repo.language ? (
+                        <span className="flex items-center gap-1.5">
+                          <span
+                            style={{
+                              width: '6px', height: '6px', borderRadius: '50%',
+                              backgroundColor: langColor(repo.language), flexShrink: 0,
+                            }}
+                          />
+                          <span
+                            className="text-[0.7rem] text-[#444]"
+                            style={{ fontFamily: 'var(--font-dm-mono)' }}
+                          >
+                            {repo.language}
+                          </span>
+                        </span>
+                      ) : <span />}
+                      {repo.stargazers_count > 0 && (
+                        <span
+                          className="text-[0.7rem] text-[#333]"
+                          style={{ fontFamily: 'var(--font-dm-mono)' }}
+                        >
+                          ★ {repo.stargazers_count}
                         </span>
                       )}
                     </div>
-                    <span
-                      className="text-[0.65rem] text-[#333] opacity-0 group-hover:opacity-100 transition-opacity duration-150 shrink-0"
-                      style={{ fontFamily: 'var(--font-dm-mono)' }}
-                    >
-                      ↗
-                    </span>
-                  </div>
-
-                  {/* Description */}
-                  {repo.description && (
-                    <p
-                      className="text-[0.8rem] text-[#555] leading-relaxed line-clamp-2"
-                      style={{ fontFamily: 'var(--font-dm-sans)' }}
-                    >
-                      {repo.description}
-                    </p>
-                  )}
-
-                  {/* Footer */}
-                  <div className="flex items-center justify-between mt-auto pt-2">
-                    {repo.language ? (
-                      <span className="flex items-center gap-1.5">
-                        <span
-                          style={{
-                            width: '6px', height: '6px', borderRadius: '50%',
-                            backgroundColor: langColor(repo.language), flexShrink: 0,
-                          }}
-                        />
-                        <span
-                          className="text-[0.7rem] text-[#444]"
-                          style={{ fontFamily: 'var(--font-dm-mono)' }}
-                        >
-                          {repo.language}
-                        </span>
-                      </span>
-                    ) : <span />}
-                    {repo.stargazers_count > 0 && (
-                      <span
-                        className="text-[0.7rem] text-[#333]"
-                        style={{ fontFamily: 'var(--font-dm-mono)' }}
-                      >
-                        ★ {repo.stargazers_count}
-                      </span>
-                    )}
-                  </div>
-                </a>
-              ))
-        }
-      </div>
+                  </motion.a>
+                ))
+          }
+        </AnimatePresence>
+      </motion.div>
     </section>
   )
 }

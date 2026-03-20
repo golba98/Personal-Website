@@ -1,12 +1,16 @@
 'use client'
 
-import { useInView } from '@/hooks/useInView'
+import { motion } from 'framer-motion'
 
 export default function About() {
-  const { ref, inView } = useInView()
-
   return (
-    <section ref={ref} className={`pb-20 section-reveal${inView ? ' is-visible' : ''}`}>
+    <motion.section 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className="pb-20"
+    >
       <h2
         className="text-[0.75rem] text-[#888] uppercase tracking-[0.1em] mb-8"
         style={{ fontFamily: 'var(--font-dm-mono)' }}
@@ -41,6 +45,6 @@ export default function About() {
           and debated for five years — I like hard problems.
         </p>
       </div>
-    </section>
+    </motion.section>
   )
 }
