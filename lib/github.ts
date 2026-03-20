@@ -9,7 +9,7 @@ export async function fetchPublicRepos(username: string) {
     `https://api.github.com/users/${username}/repos?per_page=100`,
     {
       headers: {
-        Accept: 'application/vnd.github.v3+json',
+        Accept: 'application/vnd.github.mercury-preview+json',
       },
       next: { revalidate: 3600 },
     }

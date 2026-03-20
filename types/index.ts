@@ -12,6 +12,7 @@ export interface Repo {
   updated_at: string | null
   private: boolean
   visibility: string
+  topics?: string[]
 }
 
 export interface ContributionDay {
