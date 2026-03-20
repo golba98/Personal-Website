@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { DM_Sans, DM_Mono } from 'next/font/google'
 import { SessionProvider } from '@/components/SessionProvider'
-import ScrollProgress from '@/components/ScrollProgress'
 import './globals.css'
 
 const dmSans = DM_Sans({
@@ -56,7 +55,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${dmSans.variable} ${dmMono.variable}`}>
       <body className="bg-[#0a0a0a] text-[#f5f5f5] font-sans antialiased min-h-screen">
-        <ScrollProgress />
         <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
