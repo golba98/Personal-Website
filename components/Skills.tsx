@@ -1,8 +1,3 @@
-'use client'
-
-import type { CSSProperties } from 'react'
-import { useInView } from '@/hooks/useInView'
-
 const skillGroups = [
   {
     label: 'Languages',
@@ -23,24 +18,11 @@ const skillGroups = [
 ]
 
 export default function Skills() {
-  const { ref, inView } = useInView<HTMLElement>()
-
-  function fadeIn(delayMs: number): CSSProperties {
-    return {
-      opacity: inView ? 1 : 0,
-      transform: inView ? 'translateY(0)' : 'translateY(14px)',
-      transition: `opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) ${delayMs}ms, transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) ${delayMs}ms`,
-      willChange: 'opacity, transform',
-    }
-  }
-
-  let pillIndex = 0
-
   return (
-    <section ref={ref} className="pb-20">
+    <section className="pb-20">
       <h2
         className="text-[0.75rem] text-[#888] uppercase tracking-[0.1em] mb-8"
-        style={{ fontFamily: 'var(--font-dm-mono)', ...fadeIn(0) }}
+        style={{ fontFamily: 'var(--font-dm-mono)' }}
       >
         — Skills
       </h2>
@@ -54,18 +36,15 @@ export default function Skills() {
               {group.label}
             </span>
             <div className="flex flex-wrap gap-2">
-              {group.skills.map((skill) => {
-                const delay = 40 + pillIndex++ * 20
-                return (
-                  <span
-                    key={skill}
-                    className="skill-pill text-[0.75rem] text-[#f5f5f5] border border-[#222] px-3 py-1 cursor-default"
-                    style={{ fontFamily: 'var(--font-dm-mono)', ...fadeIn(delay) }}
-                  >
-                    {skill}
-                  </span>
-                )
-              })}
+              {group.skills.map((skill) => (
+                <span
+                  key={skill}
+                  className="skill-pill text-[0.75rem] text-[#f5f5f5] border border-[#222] px-3 py-1 cursor-default"
+                  style={{ fontFamily: 'var(--font-dm-mono)' }}
+                >
+                  {skill}
+                </span>
+              ))}
             </div>
           </div>
         ))}

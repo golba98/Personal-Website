@@ -1,29 +1,11 @@
-import type { CSSProperties } from 'react'
-
-/** fadeUp — used for everything below the h1 */
-function fadeUp(delayMs: number): CSSProperties {
-  return {
-    opacity: 0,
-    animation: `fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${delayMs}ms forwards`,
-  }
-}
-
 export default function Hero() {
   const githubUsername = process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? 'golba98'
 
   return (
     <section className="py-24">
-      {/*
-        LCP element — rendered at full opacity immediately so the browser
-        can register it as painted. Uses slideUp (transform only) so it
-        still has the entrance motion without the opacity-0 LCP penalty.
-      */}
       <h1
         className="text-[3.5rem] font-light text-[#f5f5f5] leading-none mb-5"
-        style={{
-          fontFamily: 'var(--font-dm-sans)',
-          animation: 'slideUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-        }}
+        style={{ fontFamily: 'var(--font-dm-sans)' }}
       >
         Jordan Vorster
       </h1>
@@ -31,7 +13,7 @@ export default function Hero() {
       {/* Role */}
       <p
         className="text-[1rem] text-[#f5f5f5] mb-2"
-        style={{ fontFamily: 'var(--font-dm-mono)', ...fadeUp(80) }}
+        style={{ fontFamily: 'var(--font-dm-mono)' }}
       >
         CS Student &amp; Developer
       </p>
@@ -39,7 +21,7 @@ export default function Hero() {
       {/* Location */}
       <p
         className="text-[0.85rem] text-[#888] mb-2"
-        style={{ fontFamily: 'var(--font-dm-mono)', ...fadeUp(160) }}
+        style={{ fontFamily: 'var(--font-dm-mono)' }}
       >
         University of London BSc · Eastern Cape, South Africa
       </p>
@@ -47,13 +29,13 @@ export default function Hero() {
       {/* Availability text */}
       <p
         className="text-[0.85rem] text-[#555] mb-6"
-        style={{ fontFamily: 'var(--font-dm-mono)', ...fadeUp(240) }}
+        style={{ fontFamily: 'var(--font-dm-mono)' }}
       >
         Open to internships &amp; junior roles · Available remotely
       </p>
 
       {/* Availability badge */}
-      <div className="flex items-center gap-2 mb-10" style={fadeUp(300)}>
+      <div className="flex items-center gap-2 mb-10">
         <span
           style={{
             width: '6px',
@@ -73,7 +55,7 @@ export default function Hero() {
       </div>
 
       {/* Action buttons */}
-      <div className="flex flex-wrap gap-3" style={fadeUp(360)}>
+      <div className="flex flex-wrap gap-3">
         <a
           href="/api/cv"
           download="Jordan_Vorster_CV.pdf"

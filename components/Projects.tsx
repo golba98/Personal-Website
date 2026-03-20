@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
-import { useInView } from '@/hooks/useInView'
 import type { Repo } from '@/types'
 
 // ─── Language colours ────────────────────────────────────────────
@@ -40,7 +39,6 @@ function SkeletonCard() {
 // ─── Main component ─────────────────────────────────────────────
 export default function Projects() {
   const { data: session } = useSession()
-  const { ref, inView } = useInView<HTMLElement>()
 
   const [repos, setRepos]         = useState<Repo[]>([])
   const [loading, setLoading]     = useState(true)
@@ -69,7 +67,7 @@ export default function Projects() {
   const isAuthenticated = !!session
 
   return (
-    <section ref={ref} className="pb-20">
+    <section className="pb-20">
 
       {/* ── Header row ── */}
       <div className="flex items-center justify-between mb-6">
@@ -150,9 +148,7 @@ export default function Projects() {
                   href={repo.html_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  data-inview={String(inView)}
-                  className="group project-card border border-[#1a1a1a] bg-[#0f0f0f] p-5 flex flex-col gap-2 hover:border-[#2a2a2a]"
-                  style={{ transitionDelay: `${index * 30}ms` }}
+                  className="group border border-[#1a1a1a] bg-[#0f0f0f] p-5 flex flex-col gap-2 hover:border-[#2a2a2a] transition-colors duration-150"
                 >
                   {/* Title row */}
                   <div className="flex items-start justify-between gap-2">
