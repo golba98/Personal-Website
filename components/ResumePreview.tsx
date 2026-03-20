@@ -64,16 +64,27 @@ export default function ResumePreview() {
         {/* Experience */}
         <div className="grid md:grid-cols-[140px_1fr] gap-4 items-baseline">
           <span className="text-[0.7rem] uppercase tracking-widest text-[#444] font-mono">Experience</span>
-          <div className="space-y-6">
+          <div className="space-y-8">
             <div>
               <h4 className="text-[0.9rem] text-[#f5f5f5]">Pam Golding Properties</h4>
               <p className="text-[0.75rem] text-[#555] mb-2 font-mono">Part-time Intern — 2024</p>
-              <p className="text-[0.85rem] text-[#888]">Assisted with property photography, documentation, and troubleshooting operations.</p>
+              <p className="text-[0.85rem] text-[#888] leading-relaxed">
+                Photographed homes, prepared listings, inventory checking, property value estimation. Helped digitise and streamline property operations.
+              </p>
             </div>
             <div>
               <h4 className="text-[0.9rem] text-[#f5f5f5]">Summer Crew Member</h4>
               <p className="text-[0.75rem] text-[#555] mb-2 font-mono">2021 & 2023</p>
-              <p className="text-[0.85rem] text-[#888]">Maintained guest areas and led a small team during peak holiday periods.</p>
+              <p className="text-[0.85rem] text-[#888] leading-relaxed">
+                Maintained guest areas during peak holiday periods. Led small team ensuring standards were met.
+              </p>
+            </div>
+            <div>
+              <h4 className="text-[0.9rem] text-[#f5f5f5]">Part-time Waiter</h4>
+              <p className="text-[0.75rem] text-[#555] mb-2 font-mono">2022</p>
+              <p className="text-[0.85rem] text-[#888] leading-relaxed">
+                High-pressure customer service environment. Improved communication, teamwork, and emotional resilience.
+              </p>
             </div>
           </div>
         </div>

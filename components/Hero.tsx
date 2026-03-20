@@ -35,24 +35,8 @@ const charVariants: import('framer-motion').Variants = {
 
 export default function Hero() {
   const githubUsername = process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? 'golba98'
-  const h1Ref = useRef<HTMLHeadingElement>(null)
   const [copied, setCopied] = useState(false)
   const name = "Jordan Vorster"
-
-  useEffect(() => {
-    const INTERVAL = 7000   // ms between bursts
-    const DURATION = 500    // ms the glitch-active class is held
-
-    const trigger = () => {
-      const el = h1Ref.current
-      if (!el) return
-      el.classList.add('glitch-active')
-      setTimeout(() => el.classList.remove('glitch-active'), DURATION)
-    }
-
-    const id = setInterval(trigger, INTERVAL)
-    return () => clearInterval(id)
-  }, [])
 
   const copyEmail = () => {
     navigator.clipboard.writeText('jordanvorster404@gmail.com')
@@ -69,10 +53,8 @@ export default function Hero() {
     >
       <motion.h1
         variants={itemVariants}
-        ref={h1Ref}
-        className="glitch text-[3.5rem] font-light text-[#f5f5f5] leading-none mb-5 flex flex-wrap"
+        className="text-[3.5rem] font-light text-[#f5f5f5] leading-none mb-5 flex flex-wrap"
         style={{ fontFamily: 'var(--font-dm-sans)' }}
-        data-text={name}
       >
         {name.split("").map((char, i) => (
           <motion.span
