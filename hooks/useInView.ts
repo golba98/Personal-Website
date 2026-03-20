@@ -4,9 +4,10 @@ import { useEffect, useRef, useState } from 'react'
 export function useInView<T extends HTMLElement = HTMLDivElement>(
   options: { threshold?: number; rootMargin?: string; once?: boolean } = {}
 ) {
-  // rootMargin '0px 0px -60px 0px' fires when the element is 60px above
-  // the bottom of the viewport — animation finishes as the section scrolls in
-  const { threshold = 0.08, rootMargin = '0px 0px -60px 0px', once = true } = options
+  // rootMargin '0px 0px 150px 0px' expands the detection zone 150px *below*
+  // the viewport — observer fires before the section is visible, so the
+  // opacity/transform transition is already running when it scrolls into view.
+  const { threshold = 0.08, rootMargin = '0px 0px 150px 0px', once = true } = options
   const ref = useRef<T>(null)
   const [inView, setInView] = useState(false)
 

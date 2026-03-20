@@ -11,6 +11,7 @@ export default function About() {
       opacity: inView ? 1 : 0,
       transform: inView ? 'translateY(0)' : 'translateY(14px)',
       transition: `opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${delayMs}ms, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${delayMs}ms`,
+      willChange: 'opacity, transform',
     }
   }
 
