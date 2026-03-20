@@ -12,6 +12,64 @@ body {
   color: #f5f5f5;
 }
 
+/* ─── Hero name glitch — GPU only (transform + opacity) ─────── *
+ *                                                                *
+ *  Two pseudo-elements duplicate the text and slide in opposite  *
+ *  X directions for ~400ms every 7 seconds. Only transform and  *
+ *  opacity are animated — both composited on the GPU, zero       *
+ *  layout recalculation or repaint of any other element.        *
+ *  will-change is scoped to the two tiny pseudo-layers only.    *
+ * ──────────────────────────────────────────────────────────── */
+.glitch {
+  position: relative;
+}
+
+/* Ghost layer A — cool tint, slides left */
+.glitch::before {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: #a8c4ff;          /* very subtle blue-white             */
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+  animation: glitch-a 7s infinite;
+}
+
+/* Ghost layer B — warm tint, slides right */
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: #ffb3a8;          /* very subtle red-white              */
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+  animation: glitch-b 7s infinite;
+  animation-delay: 60ms;
+}
+
+@keyframes glitch-a {
+  /*  idle 94% of the time — GPU layer is invisible, zero cost  */
+  0%,  93.9%, 100% { transform: translateX(0)    translateZ(0); opacity: 0; }
+  94%              { transform: translateX(-5px)  translateZ(0); opacity: 0.55; }
+  94.9%            { transform: translateX( 4px)  translateZ(0); opacity: 0.55; }
+  95.5%            { transform: translateX(-3px)  translateZ(0); opacity: 0.4;  }
+  96%              { transform: translateX(0)    translateZ(0); opacity: 0; }
+}
+
+@keyframes glitch-b {
+  0%,  93.9%, 100% { transform: translateX(0)    translateZ(0); opacity: 0; }
+  94%              { transform: translateX( 5px)  translateZ(0); opacity: 0.55; }
+  94.9%            { transform: translateX(-4px)  translateZ(0); opacity: 0.55; }
+  95.5%            { transform: translateX( 3px)  translateZ(0); opacity: 0.4;  }
+  96%              { transform: translateX(0)    translateZ(0); opacity: 0; }
+}
+
 /* ─── Availability badge pulse ───────────────────────────────── */
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; }

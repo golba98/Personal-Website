@@ -4,8 +4,9 @@ export default function Hero() {
   return (
     <section className="py-24">
       <h1
-        className="text-[3.5rem] font-light text-[#f5f5f5] leading-none mb-5"
+        className="glitch text-[3.5rem] font-light text-[#f5f5f5] leading-none mb-5"
         style={{ fontFamily: 'var(--font-dm-sans)' }}
+        data-text="Jordan Vorster"
       >
         Jordan Vorster
       </h1>
