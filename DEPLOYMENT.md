@@ -32,7 +32,7 @@ NEXTAUTH_URL=https://jordanvorsterwebsite.online
 NEXT_PUBLIC_GITHUB_USERNAME=golba98
 ```
 
-### 5. Custom Domain
+### 5. Custom Domainer
 - Vercel dashboard → project → Settings → Domains
 - Add: jordanvorsterwebsite.online
 - Copy the DNS records Vercel gives you → add to your domain registrar
