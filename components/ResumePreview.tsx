@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion'
 import TextReveal from './TextReveal'
 
+import Magnetic from './Magnetic'
+
 export default function ResumePreview() {
   return (
     <section className="pb-20">
@@ -15,14 +17,16 @@ export default function ResumePreview() {
             — Resume Preview
           </h2>
         </TextReveal>
-        <a
-          href="/api/cv"
-          download="Jordan_Vorster_CV.pdf"
-          className="text-[0.7rem] text-[#888] border border-[#1a1a1a] px-3 py-1.5 hover:border-[#333] hover:text-[#f5f5f5] transition-all duration-300"
-          style={{ fontFamily: 'var(--font-dm-mono)' }}
-        >
-          Download PDF
-        </a>
+        <Magnetic distance={0.2}>
+          <a
+            href="/api/cv"
+            download="Jordan_Vorster_CV.pdf"
+            className="text-[0.7rem] text-[#888] border border-[#1a1a1a] px-3 py-1.5 hover:border-[#333] hover:text-[#f5f5f5] transition-all duration-300"
+            style={{ fontFamily: 'var(--font-dm-mono)' }}
+          >
+            Download PDF
+          </a>
+        </Magnetic>
       </div>
 
       <div className="border border-[#1a1a1a] bg-[#0c0c0c]/50 p-6 md:p-10 space-y-10">

@@ -24,10 +24,20 @@ const itemVariants: import('framer-motion').Variants = {
   },
 }
 
+const charVariants: import('framer-motion').Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { type: 'spring', stiffness: 100, damping: 25 },
+  },
+}
+
 export default function Hero() {
   const githubUsername = process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? 'golba98'
   const h1Ref = useRef<HTMLHeadingElement>(null)
   const [copied, setCopied] = useState(false)
+  const name = "Jordan Vorster"
 
   useEffect(() => {
     const INTERVAL = 7000   // ms between bursts
@@ -60,11 +70,19 @@ export default function Hero() {
       <motion.h1
         variants={itemVariants}
         ref={h1Ref}
-        className="glitch text-[3.5rem] font-light text-[#f5f5f5] leading-none mb-5"
+        className="glitch text-[3.5rem] font-light text-[#f5f5f5] leading-none mb-5 flex flex-wrap"
         style={{ fontFamily: 'var(--font-dm-sans)' }}
-        data-text="Jordan Vorster"
+        data-text={name}
       >
-        Jordan Vorster
+        {name.split("").map((char, i) => (
+          <motion.span
+            key={i}
+            variants={charVariants}
+            style={{ display: 'inline-block', whiteSpace: 'pre' }}
+          >
+            {char}
+          </motion.span>
+        ))}
       </motion.h1>
 
       <motion.p
