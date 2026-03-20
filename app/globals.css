@@ -12,62 +12,53 @@ body {
   color: #f5f5f5;
 }
 
-/* ─── Hero name glitch — GPU only (transform + opacity) ─────── *
+/* ─── Hero name glitch ───────────────────────────────────────── *
  *                                                                *
- *  Two pseudo-elements duplicate the text and slide in opposite  *
- *  X directions for ~400ms every 7 seconds. Only transform and  *
- *  opacity are animated — both composited on the GPU, zero       *
- *  layout recalculation or repaint of any other element.        *
- *  will-change is scoped to the two tiny pseudo-layers only.    *
+ *  Pseudo-elements are INERT by default — no will-change, no    *
+ *  animation, zero GPU cost. JS adds .glitch-active for ~500ms  *
+ *  every 7s, which is the ONLY time compositor layers exist.    *
  * ──────────────────────────────────────────────────────────── */
-.glitch {
-  position: relative;
-}
+.glitch { position: relative; }
 
-/* Ghost layer A — cool tint, slides left */
-.glitch::before {
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-  color: #a8c4ff;          /* very subtle blue-white             */
-  will-change: transform, opacity;
-  transform: translateZ(0);
-  opacity: 0;
-  pointer-events: none;
-  overflow: hidden;
-  animation: glitch-a 7s infinite;
-}
-
-/* Ghost layer B — warm tint, slides right */
+.glitch::before,
 .glitch::after {
   content: attr(data-text);
   position: absolute;
   inset: 0;
-  color: #ffb3a8;          /* very subtle red-white              */
-  will-change: transform, opacity;
-  transform: translateZ(0);
   opacity: 0;
   pointer-events: none;
-  overflow: hidden;
-  animation: glitch-b 7s infinite;
-  animation-delay: 60ms;
+}
+
+.glitch::before { color: #a8c4ff; }
+.glitch::after  { color: #ffb3a8; }
+
+/* GPU layers only exist while JS holds this class (~500ms) */
+.glitch-active::before {
+  will-change: transform, opacity;
+  animation: glitch-a 0.5s steps(1, end) forwards;
+}
+.glitch-active::after {
+  will-change: transform, opacity;
+  animation: glitch-b 0.5s steps(1, end) forwards;
+  animation-delay: 40ms;
 }
 
 @keyframes glitch-a {
-  /*  idle 94% of the time — GPU layer is invisible, zero cost  */
-  0%,  93.9%, 100% { transform: translateX(0)    translateZ(0); opacity: 0; }
-  94%              { transform: translateX(-5px)  translateZ(0); opacity: 0.55; }
-  94.9%            { transform: translateX( 4px)  translateZ(0); opacity: 0.55; }
-  95.5%            { transform: translateX(-3px)  translateZ(0); opacity: 0.4;  }
-  96%              { transform: translateX(0)    translateZ(0); opacity: 0; }
+  0%   { transform: translateX(0);    opacity: 0;    }
+  20%  { transform: translateX(-5px); opacity: 0.6;  }
+  40%  { transform: translateX( 4px); opacity: 0.6;  }
+  60%  { transform: translateX(-3px); opacity: 0.45; }
+  80%  { transform: translateX( 2px); opacity: 0.3;  }
+  100% { transform: translateX(0);    opacity: 0;    }
 }
 
 @keyframes glitch-b {
-  0%,  93.9%, 100% { transform: translateX(0)    translateZ(0); opacity: 0; }
-  94%              { transform: translateX( 5px)  translateZ(0); opacity: 0.55; }
-  94.9%            { transform: translateX(-4px)  translateZ(0); opacity: 0.55; }
-  95.5%            { transform: translateX( 3px)  translateZ(0); opacity: 0.4;  }
-  96%              { transform: translateX(0)    translateZ(0); opacity: 0; }
+  0%   { transform: translateX(0);   opacity: 0;    }
+  20%  { transform: translateX(5px); opacity: 0.6;  }
+  40%  { transform: translateX(-4px);opacity: 0.6;  }
+  60%  { transform: translateX(3px); opacity: 0.45; }
+  80%  { transform: translateX(-2px);opacity: 0.3;  }
+  100% { transform: translateX(0);   opacity: 0;    }
 }
 
 /* ─── Availability badge pulse ───────────────────────────────── */

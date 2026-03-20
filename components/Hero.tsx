@@ -1,9 +1,30 @@
+'use client'
+
+import { useEffect, useRef } from 'react'
+
 export default function Hero() {
   const githubUsername = process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? 'golba98'
+  const h1Ref = useRef<HTMLHeadingElement>(null)
+
+  useEffect(() => {
+    const INTERVAL = 7000   // ms between bursts
+    const DURATION = 500    // ms the glitch-active class is held
+
+    const trigger = () => {
+      const el = h1Ref.current
+      if (!el) return
+      el.classList.add('glitch-active')
+      setTimeout(() => el.classList.remove('glitch-active'), DURATION)
+    }
+
+    const id = setInterval(trigger, INTERVAL)
+    return () => clearInterval(id)
+  }, [])
 
   return (
     <section className="py-24">
       <h1
+        ref={h1Ref}
         className="glitch text-[3.5rem] font-light text-[#f5f5f5] leading-none mb-5"
         style={{ fontFamily: 'var(--font-dm-sans)' }}
         data-text="Jordan Vorster"
@@ -11,7 +32,6 @@ export default function Hero() {
         Jordan Vorster
       </h1>
 
-      {/* Role */}
       <p
         className="text-[1rem] text-[#f5f5f5] mb-2"
         style={{ fontFamily: 'var(--font-dm-mono)' }}
@@ -19,7 +39,6 @@ export default function Hero() {
         CS Student &amp; Developer
       </p>
 
-      {/* Location */}
       <p
         className="text-[0.85rem] text-[#888] mb-2"
         style={{ fontFamily: 'var(--font-dm-mono)' }}
@@ -27,7 +46,6 @@ export default function Hero() {
         University of London BSc · Eastern Cape, South Africa
       </p>
 
-      {/* Availability text */}
       <p
         className="text-[0.85rem] text-[#555] mb-6"
         style={{ fontFamily: 'var(--font-dm-mono)' }}
@@ -35,7 +53,6 @@ export default function Hero() {
         Open to internships &amp; junior roles · Available remotely
       </p>
 
-      {/* Availability badge */}
       <div className="flex items-center gap-2 mb-10">
         <span
           style={{
@@ -55,7 +72,6 @@ export default function Hero() {
         </span>
       </div>
 
-      {/* Action buttons */}
       <div className="flex flex-wrap gap-3">
         <a
           href="/api/cv"
