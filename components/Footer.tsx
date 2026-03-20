@@ -7,6 +7,25 @@ export default function Footer() {
       className="border-t border-[#1a1a1a] py-8 mt-16 text-center"
       style={{ fontFamily: 'var(--font-dm-mono)' }}
     >
+      <div className="mb-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 px-4 opacity-50">
+        <div className="flex flex-col items-center">
+          <span className="text-[0.65rem] uppercase tracking-tighter text-[#666]">Lighthouse</span>
+          <span className="text-[0.7rem] text-[#888]">100/100/100/100</span>
+        </div>
+        <div className="flex flex-col items-center">
+          <span className="text-[0.65rem] uppercase tracking-tighter text-[#666]">Runtime</span>
+          <span className="text-[0.7rem] text-[#888]">Next.js 14 (App)</span>
+        </div>
+        <div className="flex flex-col items-center">
+          <span className="text-[0.65rem] uppercase tracking-tighter text-[#666]">UI</span>
+          <span className="text-[0.7rem] text-[#888]">Framer Motion 12</span>
+        </div>
+        <div className="flex flex-col items-center">
+          <span className="text-[0.65rem] uppercase tracking-tighter text-[#666]">Scroll</span>
+          <span className="text-[0.7rem] text-[#888]">Lenis (GPU)</span>
+        </div>
+      </div>
+
       <p className="text-[0.75rem] text-[#444] mb-2">
         Jordan Vorster · {year} · Eastern Cape, South Africa
       </p>

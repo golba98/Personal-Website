@@ -115,11 +115,26 @@ function ProjectCard({ repo }: { repo: Repo }) {
       {/* Description */}
       {repo.description && (
         <p
-          className="text-[0.8rem] text-[#555] leading-relaxed line-clamp-2 relative z-10"
+          className="text-[0.8rem] text-[#555] leading-relaxed line-clamp-2 relative z-10 mb-2"
           style={{ fontFamily: 'var(--font-dm-sans)' }}
         >
           {repo.description}
         </p>
+      )}
+
+      {/* Topics / Tech Labels */}
+      {repo.topics && repo.topics.length > 0 && (
+        <div className="flex flex-wrap gap-1 mb-3 relative z-10">
+          {repo.topics.slice(0, 4).map(topic => (
+            <span
+              key={topic}
+              className="text-[0.6rem] text-[#444] border border-[#1a1a1a] px-1.5 py-0.5"
+              style={{ fontFamily: 'var(--font-dm-mono)' }}
+            >
+              {topic}
+            </span>
+          ))}
+        </div>
       )}
 
       {/* Footer */}
