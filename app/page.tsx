@@ -3,8 +3,6 @@ import ScrollProgress from '@/components/ScrollProgress'
 import Hero from '@/components/Hero'
 import About from '@/components/About'
 import Skills from '@/components/Skills'
-import Terminal from '@/components/Terminal'
-import ResumePreview from '@/components/ResumePreview'
 import Projects from '@/components/Projects'
 import ContributionGraph from '@/components/ContributionGraph'
 import Footer from '@/components/Footer'
@@ -24,10 +22,7 @@ export default function Home() {
         }}
       >
         <Hero />
-        <About />
         <Skills />
-        <Terminal />
-        <ResumePreview />
         <Projects />
         <ContributionGraph />
       </main>
