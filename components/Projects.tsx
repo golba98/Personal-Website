@@ -151,7 +151,7 @@ function SkeletonCard() {
 // ─── Main component ─────────────────────────────────────────────
 export default function Projects() {
   const { data: session } = useSession()
-  const { ref, inView } = useInView<HTMLElement>({ threshold: 0.05 })
+  const { ref, inView } = useInView<HTMLElement>()
 
   const [repos, setRepos]         = useState<Repo[]>([])
   const [loading, setLoading]     = useState(true)

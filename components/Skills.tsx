@@ -23,13 +23,13 @@ const skillGroups = [
 ]
 
 export default function Skills() {
-  const { ref, inView } = useInView<HTMLElement>({ threshold: 0.1 })
+  const { ref, inView } = useInView<HTMLElement>()
 
   function fadeIn(delayMs: number): CSSProperties {
     return {
       opacity: inView ? 1 : 0,
-      transform: inView ? 'translateY(0)' : 'translateY(20px)',
-      transition: `opacity 0.4s ease ${delayMs}ms, transform 0.4s ease ${delayMs}ms`,
+      transform: inView ? 'translateY(0)' : 'translateY(14px)',
+      transition: `opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) ${delayMs}ms, transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) ${delayMs}ms`,
     }
   }
 

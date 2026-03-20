@@ -4,13 +4,13 @@ import type { CSSProperties } from 'react'
 import { useInView } from '@/hooks/useInView'
 
 export default function About() {
-  const { ref, inView } = useInView<HTMLElement>({ threshold: 0.1 })
+  const { ref, inView } = useInView<HTMLElement>()
 
   function fadeIn(delayMs: number): CSSProperties {
     return {
       opacity: inView ? 1 : 0,
-      transform: inView ? 'translateY(0)' : 'translateY(20px)',
-      transition: `opacity 0.5s ease ${delayMs}ms, transform 0.5s ease ${delayMs}ms`,
+      transform: inView ? 'translateY(0)' : 'translateY(14px)',
+      transition: `opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${delayMs}ms, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${delayMs}ms`,
     }
   }
 

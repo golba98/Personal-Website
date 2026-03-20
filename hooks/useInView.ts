@@ -4,7 +4,9 @@ import { useEffect, useRef, useState } from 'react'
 export function useInView<T extends HTMLElement = HTMLDivElement>(
   options: { threshold?: number; rootMargin?: string; once?: boolean } = {}
 ) {
-  const { threshold = 0.1, rootMargin = '0px', once = true } = options
+  // rootMargin '0px 0px -60px 0px' fires when the element is 60px above
+  // the bottom of the viewport — animation finishes as the section scrolls in
+  const { threshold = 0.08, rootMargin = '0px 0px -60px 0px', once = true } = options
   const ref = useRef<T>(null)
   const [inView, setInView] = useState(false)
 

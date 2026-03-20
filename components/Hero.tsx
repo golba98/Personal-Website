@@ -4,7 +4,7 @@ import type { CSSProperties } from 'react'
 function fadeUp(delayMs: number): CSSProperties {
   return {
     opacity: 0,
-    animation: `fadeUp 0.55s ease ${delayMs}ms forwards`,
+    animation: `fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${delayMs}ms forwards`,
   }
 }
 
@@ -22,7 +22,7 @@ export default function Hero() {
         className="text-[3.5rem] font-light text-[#f5f5f5] leading-none mb-5"
         style={{
           fontFamily: 'var(--font-dm-sans)',
-          animation: 'slideUp 0.5s ease forwards',
+          animation: 'slideUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards',
         }}
       >
         Jordan Vorster
