@@ -6,7 +6,6 @@ import Skills from '@/components/Skills'
 import Projects from '@/components/Projects'
 import ContributionGraph from '@/components/ContributionGraph'
 import Footer from '@/components/Footer'
-
 export default function Home() {
   return (
     <>

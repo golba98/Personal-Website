@@ -8,8 +8,10 @@ export default function Navbar() {
       className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6"
       style={{
         height: '56px',
-        backgroundColor: '#0a0a0a',
-        borderBottom: '1px solid #1a1a1a',
+        backgroundColor: 'rgba(10, 10, 10, 0.8)',
+        backdropFilter: 'blur(20px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
       }}
     >
       <span

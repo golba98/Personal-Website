@@ -1,6 +1,12 @@
+'use client'
+
+import { useInView } from '@/hooks/useInView'
+
 export default function About() {
+  const { ref, inView } = useInView()
+
   return (
-    <section className="pb-20">
+    <section ref={ref} className={`pb-20 section-reveal${inView ? ' is-visible' : ''}`}>
       <h2
         className="text-[0.75rem] text-[#888] uppercase tracking-[0.1em] mb-8"
         style={{ fontFamily: 'var(--font-dm-mono)' }}

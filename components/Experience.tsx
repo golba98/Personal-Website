@@ -1,3 +1,7 @@
+'use client'
+
+import { useInView } from '@/hooks/useInView'
+
 const entries = [
   {
     period: '2023 — present',
@@ -33,18 +37,33 @@ const entries = [
 ]
 
 export default function Experience() {
+  const { ref, inView } = useInView()
+
   return (
-    <section className="pb-20">
+    <section ref={ref} className="pb-20">
       <h2
         className="text-[0.75rem] text-[#888] uppercase tracking-[0.1em] mb-8"
-        style={{ fontFamily: 'var(--font-dm-mono)' }}
+        style={{
+          fontFamily: 'var(--font-dm-mono)',
+          opacity: inView ? 1 : 0,
+          transform: inView ? 'none' : 'translateY(12px)',
+          transition: 'opacity 500ms ease 0ms, transform 500ms ease 0ms',
+        }}
       >
         — Experience
       </h2>
 
       <div>
         {entries.map((entry, i) => (
-          <div key={i} className="flex gap-5">
+          <div
+            key={i}
+            className="flex gap-5"
+            style={{
+              opacity: inView ? 1 : 0,
+              transform: inView ? 'translateY(0)' : 'translateY(16px)',
+              transition: `opacity 500ms ease ${(i + 1) * 80}ms, transform 500ms ease ${(i + 1) * 80}ms`,
+            }}
+          >
             {/* Timeline spine */}
             <div
               className="flex flex-col items-center"
